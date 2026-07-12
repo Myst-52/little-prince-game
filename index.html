@@ -3,118 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>灏忕帇瀛?路 鏄熼檯婕父</title>
+    <title>小王子 · 星际漫游</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- 鏄熺┖鑳屾櫙 -->
+    <!-- 星空背景 -->
     <div class="stars" id="stars"></div>
     <div class="shooting-star"></div>
     
-    <!-- 涓诲鍣?-->
+    <!-- 主容器 -->
     <div class="game-container">
-        <!-- 寮€濮嬬晫闈?-->
+        <!-- 开始界面 -->
         <div id="start-screen" class="screen active">
             <div class="title-area">
-                <div class="planet-icon">馃尮</div>
-                <h1 class="game-title">灏忕帇瀛?/h1>
-                <p class="game-subtitle">路 鏄熼檯婕父 路</p>
+                <div class="planet-icon">🌹</div>
+                <h1 class="game-title">小王子</h1>
+                <p class="game-subtitle">· 星际漫游 ·</p>
             </div>
             <div class="start-content">
-                <p class="quote">"鎵€鏈夌殑澶т汉閮芥浘缁忔槸灏忓锛岃櫧鐒讹紝鍙湁灏戞暟鐨勪汉璁板緱銆?</p>
-                <p class="quote-author">鈥斺€?瀹夋墭涓嚶峰痉路鍦?鍩冨厠鑻忎僵閲?/p>
+                <p class="quote">"所有的大人都曾经是小孩，虽然，只有少数的人记得。"</p>
+                <p class="quote-author">—— 安托万·德·圣-埃克苏佩里</p>
                 <button class="btn btn-primary" onclick="startGame()">
-                    <span class="btn-icon">鉁?/span> 寮€濮嬫梾绋?                </button>
+                    <span class="btn-icon">✦</span> 开始旅程
+                </button>
             </div>
         </div>
 
-        <!-- 娓告垙涓荤晫闈?-->
+        <!-- 游戏主界面 -->
         <div id="game-screen" class="screen">
             <div class="game-header">
                 <div class="location-badge" id="location-badge">
-                    <span class="location-icon">馃實</span>
-                    <span id="current-location">B-612鏄熺悆</span>
+                    <span class="location-icon">🌍</span>
+                    <span id="current-location">B-612星球</span>
                 </div>
                 <div class="chapter-indicator">
-                    <span id="chapter-num">绗?绔?/span>
+                    <span id="chapter-num">第1章</span>
                 </div>
             </div>
             
             <div class="story-panel">
                 <div class="story-text" id="story-text">
-                    <!-- 鏁呬簨鍐呭灏嗛€氳繃JS鍔ㄦ€佸姞杞?-->
+                    <!-- 故事内容将通过JS动态加载 -->
                 </div>
             </div>
 
             <div class="choices-panel" id="choices-panel">
-                <!-- 閫夐」灏嗛€氳繃JS鍔ㄦ€佸姞杞?-->
+                <!-- 选项将通过JS动态加载 -->
             </div>
 
             <div class="game-footer">
                 <div class="stats-bar">
                     <div class="stat">
-                        <span class="stat-icon">馃挅</span>
-                        <span class="stat-label">缇佺粖鍊?/span>
+                        <span class="stat-icon">💖</span>
+                        <span class="stat-label">羁绊值</span>
                         <span class="stat-value" id="love-stat">0</span>
                     </div>
                     <div class="stat">
-                        <span class="stat-icon">猸?/span>
-                        <span class="stat-label">鏄熸槦</span>
+                        <span class="stat-icon">⭐</span>
+                        <span class="stat-label">星星</span>
                         <span class="stat-value" id="star-stat">0</span>
                     </div>
                     <div class="stat">
-                        <span class="stat-icon">馃帓</span>
-                        <span class="stat-label">鐗╁搧</span>
+                        <span class="stat-icon">🎒</span>
+                        <span class="stat-label">物品</span>
                         <span class="stat-value" id="item-stat">0</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 缁撳眬鐣岄潰 -->
+        <!-- 结局界面 -->
         <div id="ending-screen" class="screen">
             <div class="ending-content">
-                <div class="ending-icon" id="ending-icon">馃専</div>
-                <h2 class="ending-title" id="ending-title">鏃呯▼缁撴潫</h2>
+                <div class="ending-icon" id="ending-icon">🌟</div>
+                <h2 class="ending-title" id="ending-title">旅程结束</h2>
                 <div class="ending-text" id="ending-text">
-                    <!-- 缁撳眬鍐呭 -->
+                    <!-- 结局内容 -->
                 </div>
                 <div class="ending-stats">
                     <div class="ending-stat">
-                        <span>缇佺粖鍊硷細</span>
+                        <span>羁绊值：</span>
                         <span id="final-love">0</span>
                     </div>
                     <div class="ending-stat">
-                        <span>鏀堕泦鏄熸槦锛?/span>
+                        <span>收集星星：</span>
                         <span id="final-stars">0</span>
                     </div>
                 </div>
                 <div class="ending-actions">
                     <button class="btn btn-secondary" onclick="restartGame()">
-                        <span class="btn-icon">馃攧</span> 閲嶆柊寮€濮?                    </button>
+                        <span class="btn-icon">🔄</span> 重新开始
+                    </button>
                     <button class="btn btn-primary" onclick="showCredits()">
-                        <span class="btn-icon">馃摐</span> 鍒朵綔鍚嶅崟
+                        <span class="btn-icon">📜</span> 制作名单
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- 鍒朵綔鍚嶅崟 -->
+        <!-- 制作名单 -->
         <div id="credits-screen" class="screen">
             <div class="credits-content">
-                <h2>鍒朵綔鍚嶅崟</h2>
+                <h2>制作名单</h2>
                 <div class="credits-list">
-                    <p><strong>鍘熻憲</strong>锛氬畨鎵樹竾路寰仿峰湥-鍩冨厠鑻忎僵閲屻€婂皬鐜嬪瓙銆?/p>
-                    <p><strong>娓告垙璁捐</strong>锛?5鏂囩紪 闄惰瘲鏇?AI鍗忎綔鍒涗綔</p>
-                    <p><strong>鎶€鏈爤</strong>锛欻TML5 + CSS3 + JavaScript</p>
-                    <p><strong>鐗瑰埆楦ｈ阿</strong>锛氭瘡涓€浣嶆浘缁忔槸瀛╁瓙鐨勫ぇ浜?/p>
+                    <p><strong>原著</strong>：安托万·德·圣-埃克苏佩里《小王子》</p>
+                    <p><strong>游戏设计</strong>：25文编 陶诗曼 AI协作创作</p>
+                    <p><strong>技术栈</strong>：HTML5 + CSS3 + JavaScript</p>
+                    <p><strong>特别鸣谢</strong>：每一位曾经是孩子的大人</p>
                 </div>
                 <div class="final-quote">
-                    <p>"鐪熸閲嶈鐨勪笢瑗匡紝鐢ㄧ溂鐫涙槸鐪嬩笉瑙佺殑銆?</p>
+                    <p>"真正重要的东西，用眼睛是看不见的。"</p>
                 </div>
                 <button class="btn btn-primary" onclick="goToStart()">
-                    <span class="btn-icon">馃彔</span> 杩斿洖棣栭〉
+                    <span class="btn-icon">🏠</span> 返回首页
                 </button>
             </div>
         </div>
