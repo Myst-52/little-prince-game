@@ -1,9 +1,9 @@
 /**
- * 灏忕帇瀛?路 鏄熼檯婕父 - 娓告垙閫昏緫
- * 涓€涓熀浜庛€婂皬鐜嬪瓙銆嬫晠浜嬬殑鏂囧瓧鍐掗櫓娓告垙
+ * 小王子 · 星际漫游 - 游戏逻辑
+ * 一个基于《小王子》故事的文字冒险游戏
  */
 
-// ==================== 娓告垙鐘舵€?====================
+// ==================== 游戏状态 ====================
 const gameState = {
     currentScene: 'start',
     love: 0,
@@ -13,389 +13,390 @@ const gameState = {
     choices: []
 };
 
-// ==================== 鏁呬簨鏁版嵁 ====================
+// ==================== 故事数据 ====================
 const storyData = {
-    // ===== 搴忕珷 =====
+    // ===== 序章 =====
     start: {
-        chapter: '搴忕珷',
-        location: '椋炶鍛樼殑鍥炲繂',
-        locationIcon: '鉁堬笍',
+        chapter: '序章',
+        location: '飞行员的回忆',
+        locationIcon: '✈️',
         text: `
-            <p>鍦ㄦ垜鍏瞾閭ｅ勾锛屾垜璇诲埌浜嗕竴鏈叧浜庡師濮嬫．鏋楃殑涔︼紝鍙仛銆婄湡瀹炵殑鏁呬簨銆嬨€?/p>
-            <p>涔︿腑鍐欓亾锛?em>"锜掕泧鍚炲櫖鐚庣墿锛屼笉鍔犲拃鍤笺€?</em></p>
-            <p>浜庢槸锛屾垜鐢诲嚭浜嗘垜鐨勭涓€骞呯敾锛氫竴椤跺附瀛愩€備絾澶т汉浠閭ｆ槸涓€椤跺附瀛愶紝娌℃湁浜虹湅鍑洪偅鏄煉铔囨鍦ㄦ秷鍖栦竴澶村ぇ璞°€?/p>
-            <p>浠庢锛屾垜鏀惧純浜嗙敾瀹剁殑鐢熸动锛屾垚涓轰簡涓€鍚嶉琛屽憳銆?/p>
-            <p>鐩村埌鏈変竴澶╋紝鎴戠殑椋炴満杩檷鍦ㄦ拻鍝堟媺娌欐紶锛屾垜閬囪浜嗛偅涓潵鑷狟-612灏忚鏄熺殑鐢峰鈥斺€?/p>
-            <p><span class="highlight">灏忕帇瀛愩€?/span></p>
+            <p>在我六岁那年，我读到了一本关于原始森林的书，叫做《真实的故事》。</p>
+            <p>书中写道：<em>"蟒蛇吞噬猎物，不加咀嚼。"</em></p>
+            <p>于是，我画出了我的第一幅画：一顶帽子。但大人们说那是一顶帽子，没有人看出那是蟒蛇正在消化一头大象。</p>
+            <p>从此，我放弃了画家的生涯，成为了一名飞行员。</p>
+            <p>直到有一天，我的飞机迫降在撒哈拉沙漠，我遇见了那个来自B-612小行星的男孩——</p>
+            <p><span class="highlight">小王子。</span></p>
         `,
         choices: [
-            { text: '鍚皬鐜嬪瓙璁茶堪浠栫殑鏁呬簨', next: 'prince_story', love: 5 },
-            { text: '鍏堜慨鐞嗛鏈猴紝鍐嶆參鎱㈣亰澶?, next: 'fix_plane', love: 2 }
+            { text: '听小王子讲述他的故事', next: 'prince_story', love: 5 },
+            { text: '先修理飞机，再慢慢聊天', next: 'fix_plane', love: 2 }
         ]
     },
 
-    // ===== B-612鏄熺悆 =====
+    // ===== B-612星球 =====
     prince_story: {
-        chapter: '绗竴绔?,
-        location: 'B-612鏄熺悆',
-        locationIcon: '馃實',
+        chapter: '第一章',
+        location: 'B-612星球',
+        locationIcon: '🌍',
         text: `
-            <p>灏忕帇瀛愬憡璇夋垜锛屼粬鏉ヨ嚜涓€涓緢灏忓緢灏忕殑鏄熺悆锛屽皬鍒板彧鑳藉绾充笁搴х伀灞卞拰涓€鏈电帿鐟拌姳銆?/p>
-            <p>"濂规槸涓€鏈甸潪甯搁獎鍌茬殑鑺憋紝"灏忕帇瀛愯锛岀溂鐫涢噷闂儊鐫€鍏夎姃锛?濂规€绘槸鍋囪鍜冲椊锛岃鎴戠粰濂规尅椋庯紝缁欐垜璁插お闃崇郴鐨勬晠浜嬨€?</p>
-            <p>浣嗘湁涓€澶╋紝浠栦滑鍚垫灦浜嗐€?/p>
-            <p>灏忕帇瀛愮寮€浜嗕粬鐨勬槦鐞冿紝韪忎笂浜嗘槦闄呮梾琛屻€備粬鍏堝悗鎷滆浜嗗叚涓皬琛屾槦锛岄亣鍒颁簡鍚勭鍚勬牱濂囨€殑浜恒€?/p>
-            <p><em>"鎴戞兂瑕佷竴涓湅鍙嬶紝"</em>灏忕帇瀛愯交澹拌锛?鑰屼笉鏄竴涓彧浼氬懡浠ゆ垜鐨勫浗鐜嬨€?</p>
+            <p>小王子告诉我，他来自一个很小很小的星球，小到只能容纳三座火山和一朵玫瑰花。</p>
+            <p>"她是一朵非常骄傲的花，"小王子说，眼睛里闪烁着光芒，"她总是假装咳嗽，让我给她挡风，给我讲太阳系的故事。"</p>
+            <p>但有一天，他们吵架了。</p>
+            <p>小王子离开了他的星球，踏上了星际旅行。他先后拜访了六个小行星，遇到了各种各样奇怪的人。</p>
+            <p><em>"我想要一个朋友，"</em>小王子轻声说，"而不是一个只会命令我的国王。"</p>
         `,
         choices: [
-            { text: '鎷滆鍥界帇鐨勬槦鐞?, next: 'planet_king', star: 1 },
-            { text: '鎷滆鐖辫櫄鑽ｇ殑浜虹殑鏄熺悆', next: 'planet_vain', star: 1 },
-            { text: '鎷滆閰掗鐨勬槦鐞?, next: 'planet_drunkard', star: 1 }
+            { text: '拜访国王的星球', next: 'planet_king', star: 1 },
+            { text: '拜访爱虚荣的人的星球', next: 'planet_vain', star: 1 },
+            { text: '拜访酒鬼的星球', next: 'planet_drunkard', star: 1 }
         ]
     },
 
     fix_plane: {
-        chapter: '绗竴绔?,
-        location: '鎾掑搱鎷夋矙婕?,
-        locationIcon: '馃彍锔?,
+        chapter: '第一章',
+        location: '撒哈拉沙漠',
+        locationIcon: '🏜️',
         text: `
-            <p>鎴戝紑濮嬩慨鐞嗛鏈猴紝浣嗗皬鐜嬪瓙鍧愬湪涓€鏃侊紝鐢ㄩ偅鍙屾竻婢堢殑鐪肩潧鐪嬬潃鎴戙€?/p>
-            <p>"浣犱篃鏄粠鍒殑鏄熺悆鏉ョ殑鍚楋紵"浠栭棶銆?/p>
-            <p>"涓嶏紝鎴戜粠鍦扮悆鏉ャ€?鎴戝洖绛斻€?/p>
-            <p>灏忕帇瀛愮湅璧锋潵鑻ユ湁鎵€鎬濓細"鍦扮悆...閭ｆ槸鍝噷锛?</p>
-            <p>"鍦ㄨ繖鐗囨矙婕犻噷锛屾湁寰堝浜猴紝鏈夊緢澶氭埧瀛愬拰鍩庡競銆?鎴戣銆?/p>
-            <p>灏忕帇瀛愮瑧浜嗭細"娌欐紶涔嬫墍浠ョ編涓斤紝鏄洜涓哄畠鍦ㄦ煇涓钀介噷钘忕潃涓€鍙ｆ按浜曘€?</p>
+            <p>我开始修理飞机，但小王子坐在一旁，用那双清澈的眼睛看着我。</p>
+            <p>"你也是从别的星球来的吗？"他问。</p>
+            <p>"不，我从地球来。"我回答。</p>
+            <p>小王子看起来若有所思："地球...那是哪里？"</p>
+            <p>"在这片沙漠里，有很多人，有很多房子和城市。"我说。</p>
+            <p>小王子笑了："沙漠之所以美丽，是因为它在某个角落里藏着一口水井。"</p>
         `,
         choices: [
-            { text: '甯﹀皬鐜嬪瓙鍘荤湅鏄熺┖', next: 'starry_night', love: 8 },
-            { text: '缁х画淇悊椋炴満', next: 'continue_fix', love: 3 }
+            { text: '带小王子去看星空', next: 'starry_night', love: 8 },
+            { text: '继续修理飞机', next: 'continue_fix', love: 3 }
         ]
     },
 
     starry_night: {
-        chapter: '绗簩绔?,
-        location: '鎾掑搱鎷夋矙婕犅锋槦绌轰笅',
-        locationIcon: '鉁?,
+        chapter: '第二章',
+        location: '撒哈拉沙漠·星空下',
+        locationIcon: '✨',
         text: `
-            <p>鎴戜滑韬哄湪娌欐紶鐨勬矙鍦颁笂锛屼话鏈涚潃婊″ぉ绻佹槦銆?/p>
-            <p>"鍥犱负浣犲湪浣犵殑鐜懓涓婅姳璐逛簡鏃堕棿锛屾墠浣垮緱浣犵殑鐜懓鍙樺緱濡傛閲嶈銆?灏忕帇瀛愯交澹拌銆?/p>
-            <p>鎴戞姮澶寸湅鐫€閭ｄ簺鏄熸槦锛屼豢浣涢兘鑳藉惉鍒板皬鐜嬪瓙鐨勭瑧澹般€?/p>
-            <p><em>"濡傛灉浣犵埍涓婁簡涓€鏈电敓闀垮湪鏌愰鏄熺悆涓婄殑鑺憋紝閭ｄ箞褰撲綘浠版湜鏄熺┖鏃讹紝灏变細鎰熷埌鐢滆湝銆傛墍鏈夌殑鏄熸槦閮藉儚寮€浜嗚姳銆?</em></p>
-            <p>鎴戞劅鍒扮溂鐪舵箍娑︿簡銆?/p>
-            <p>鍦ㄨ繖涓鏅氾紝鎴戞敹闆嗗埌浜嗕竴棰楅棯闂彂鍏夌殑鏄熸槦銆?/p>
+            <p>我们躺在沙漠的沙地上，仰望着满天繁星。</p>
+            <p>"因为你在你的玫瑰上花费了时间，才使得你的玫瑰变得如此重要。"小王子轻声说。</p>
+            <p>我抬头看着那些星星，仿佛都能听到小王子的笑声。</p>
+            <p><em>"如果你爱上了一朵生长在某颗星球上的花，那么当你仰望星空时，就会感到甜蜜。所有的星星都像开了花。"</em></p>
+            <p>我感到眼眶湿润了。</p>
+            <p>在这个夜晚，我收集到了一颗闪闪发光的星星。</p>
         `,
         choices: [
-            { text: '璇㈤棶灏忕帇瀛愪负浠€涔堢寮€鐜懓', next: 'why_leave', love: 5 },
-            { text: '鍒嗕韩鎴戝皬鏃跺€欑敾鐨勮煉铔?, next: 'draw_snake', love: 10 }
+            { text: '询问小王子为什么离开玫瑰', next: 'why_leave', love: 5 },
+            { text: '分享我小时候画的蟒蛇', next: 'draw_snake', love: 10 }
         ]
     },
 
     why_leave: {
-        chapter: '绗笁绔?,
-        location: '鎾掑搱鎷夋矙婕犅峰洖蹇?,
-        locationIcon: '馃挱',
+        chapter: '第三章',
+        location: '撒哈拉沙漠·回忆',
+        locationIcon: '💭',
         text: `
-            <p>"鎴戦偅鏃跺€欏お骞磋交浜嗭紝杩樹笉鎳傚緱鎬庢牱鍘荤埍濂广€?灏忕帇瀛愯銆?/p>
-            <p>"濂规€绘槸璇翠竴浜涘彛鏄績闈炵殑璇濓紝鎴戝嵈澶勾杞讳簡锛屼笉鐭ラ亾鎬庝箞鍘荤悊瑙ｅス銆?</p>
-            <p>"鎴戜笉璇ュ惉濂硅鐨勯偅浜涜祵姘旇瘽锛屾垜搴旇鐪嬪ス鍋氫簡浠€涔堬紝鑰屼笉鏄浜嗕粈涔堛€?</p>
-            <p>"鎴戣濂硅嚜鐢变簡锛屼絾鎴戜笉鐭ラ亾濂圭幇鍦ㄥソ涓嶅ソ銆?</p>
-            <p>灏忕帇瀛愮殑鐪肩潧閲屾硾璧蜂簡娉厜銆?/p>
-            <p><em>"濡傛灉浣犻┋鏈嶄簡鎴戯紝鎴戠殑鐢熸椿灏变細鍏呮弧闃冲厜銆?</em></p>
+            <p>"我那时候太年轻了，还不懂得怎样去爱她。"小王子说。</p>
+            <p>"她总是说一些口是心非的话，我却太年轻了，不知道怎么去理解她。"</p>
+            <p>"我不该听她说的那些赌气话，我应该看她做了什么，而不是说了什么。"</p>
+            <p>"我让她自由了，但我不知道她现在好不好。"</p>
+            <p>小王子的眼睛里泛起了泪光。</p>
+            <p><em>"如果你驯服了我，我的生活就会充满阳光。"</em></p>
         `,
         choices: [
-            { text: '瀹夋叞灏忕帇瀛愶紝鍛婅瘔浠栫帿鐟颁篃鍦ㄧ瓑浠?, next: 'comfort_prince', love: 15 },
-            { text: '甯︿粬鍘绘壘娌欐紶閲岀殑閭ｅ彛姘翠簳', next: 'find_well', love: 8 }
+            { text: '安慰小王子，告诉他玫瑰也在等他', next: 'comfort_prince', love: 15 },
+            { text: '带他去找沙漠里的那口水井', next: 'find_well', love: 8 }
         ]
     },
 
     comfort_prince: {
-        chapter: '绗洓绔?,
-        location: '鎾掑搱鎷夋矙婕犅峰笇鏈涗箣鍦?,
-        locationIcon: '馃尭',
+        chapter: '第四章',
+        location: '撒哈拉沙漠·希望之地',
+        locationIcon: '🌸',
         text: `
-            <p>"浣犳湁娌℃湁鎯宠繃锛屼綘鐨勭帿鐟板彲鑳戒篃鍦ㄦ煇涓湴鏂规兂蹇电潃浣狅紵"鎴戣交澹拌銆?/p>
-            <p>灏忕帇瀛愭姮璧峰ご锛岀溂鐫涢噷閲嶆柊鐕冭捣浜嗗厜鑺掋€?/p>
-            <p>"濂?..濂逛細鍚楋紵"</p>
-            <p>"褰撶劧銆備綘瀵瑰ス鏉ヨ鏄嫭涓€鏃犱簩鐨勶紝濂瑰浣犳潵璇翠篃鏄嫭涓€鏃犱簩鐨勩€?</p>
-            <p>灏忕帇瀛愭矇榛樹簡寰堜箙锛岀劧鍚庨湶鍑轰簡涓€涓俯鏆栫殑寰瑧銆?/p>
-            <p>"璋㈣阿浣犮€傛垜鎯?..鎴戞兂鍥炲浜嗐€?</p>
-            <p>"浣犺鍥炲埌濂硅韩杈瑰悧锛?</p>
-            <p><em>"鏄殑锛屽洜涓烘垜鎯虫槑鐧戒簡鈥斺€旈噸瑕佺殑涓滆タ锛岀敤鐪肩潧鏄湅涓嶈鐨勶紝瑕佺敤蹇冨幓鎰熷彈銆?</em></p>
+            <p>"你有没有想过，你的玫瑰可能也在某个地方想念着你？"我轻声说。</p>
+            <p>小王子抬起头，眼睛里重新燃起了光芒。</p>
+            <p>"她...她会吗？"</p>
+            <p>"当然。你对她来说是独一无二的，她对你来说也是独一无二的。"</p>
+            <p>小王子沉默了很久，然后露出了一个温暖的微笑。</p>
+            <p>"谢谢你。我想...我想回家了。"</p>
+            <p>"你要回到她身边吗？"</p>
+            <p><em>"是的，因为我想明白了——重要的东西，用眼睛是看不见的，要用心去感受。"</em></p>
         `,
         choices: [
-            { text: '甯姪灏忕帇瀛愭壘鍒板洖瀹剁殑璺?, next: 'ending_home', love: 20 },
-            { text: '鍛婅瘔灏忕帇瀛愶紝鎴戜細姘歌繙璁板緱浠?, next: 'ending_friendship', love: 25 }
+            { text: '帮助小王子找到回家的路', next: 'ending_home', love: 20 },
+            { text: '告诉小王子，我会永远记得他', next: 'ending_friendship', love: 25 }
         ]
     },
 
     draw_snake: {
-        chapter: '绗笁绔?,
-        location: '鎾掑搱鎷夋矙婕犅风瘽鐏梺',
-        locationIcon: '馃敟',
+        chapter: '第三章',
+        location: '撒哈拉沙漠·篝火旁',
+        locationIcon: '🔥',
         text: `
-            <p>鎴戜粠鍙ｈ閲屾帍鍑虹焊绗旓紝鐢讳簡涓€骞呯敾銆?/p>
-            <p>"浣犵湅锛岃繖鏄垜鍏瞾鐨勬椂鍊欑敾鐨勩€?</p>
-            <p>灏忕帇瀛愪粩缁嗗湴鐪嬬潃锛岀劧鍚庣瑧浜嗐€?/p>
-            <p>"鍝︼紝杩欐槸涓€鏉¤煉铔囨鍦ㄦ秷鍖栦竴澶村ぇ璞★紒"</p>
-            <p>鎴戞儕璁跺湴鐪嬬潃浠栵細"浣犳€庝箞鐭ラ亾鐨勶紵"</p>
-            <p><em>"鍥犱负鎴戝湪鎴戠殑鏄熺悆涓婁篃鐢昏繃銆?</em></p>
-            <p>鍦ㄩ偅涓€鍒伙紝鎴戞劅鍒颁竴绉嶅濡欑殑鑱旂粨鈥斺€斿湪杩欎釜涓栫晫涓婏紝缁堜簬鏈変汉鑳界湅鎳傛垜鐨勭敾浜嗐€?/p>
+            <p>我从口袋里掏出纸笔，画了一幅画。</p>
+            <p>"你看，这是我六岁的时候画的。"</p>
+            <p>小王子仔细地看着，然后笑了。</p>
+            <p>"哦，这是一条蟒蛇正在消化一头大象！"</p>
+            <p>我惊讶地看着他："你怎么知道的？"</p>
+            <p><em>"因为我在我的星球上也画过。"</em></p>
+            <p>在那一刻，我感到一种奇妙的联结——在这个世界上，终于有人能看懂我的画了。</p>
         `,
         choices: [
-            { text: '闂皬鐜嬪瓙浠栫殑鏄熺悆涓婃湁浠€涔?, next: 'prince_planet', love: 12 },
-            { text: '涓€璧风敾鏇村鐨勭敾', next: 'draw_together', love: 15 }
+            { text: '问小王子他的星球上有什么', next: 'prince_planet', love: 12 },
+            { text: '一起画更多的画', next: 'draw_together', love: 15 }
         ]
     },
 
     draw_together: {
-        chapter: '绗洓绔?,
-        location: '鎾掑搱鎷夋矙婕犅疯壓鏈箣澶?,
-        locationIcon: '馃帹',
+        chapter: '第四章',
+        location: '撒哈拉沙漠·艺术之夜',
+        locationIcon: '🎨',
         text: `
-            <p>鎴戜滑鍧愬湪绡濈伀鏃侊紝涓€璧风敾鐫€閭ｄ簺鍙湁鎴戜滑鑳芥噦鐨勭敾銆?/p>
-            <p>鎴戠敾浜嗕竴椤跺附瀛愶紝灏忕帇瀛愮敾浜嗕竴鏈电帿鐟般€?/p>
-            <p>鎴戠敾浜嗕竴鏋堕鏈猴紝灏忕帇瀛愮敾浜嗕竴棰楀皬灏忕殑鏄熺悆銆?/p>
-            <p>"浣犵煡閬撳悧锛?灏忕帇瀛愯锛?鍦ㄨ繖涓笘鐣屼笂锛屽ぇ浜轰滑鍙鏁板瓧鎰熷叴瓒ｃ€傚鏋滀綘璇?鎴戠湅瑙佷簡涓€搴ф紓浜殑鎴垮瓙'锛屼粬浠笉浼氭兂璞￠偅搴ф埧瀛愮殑鏍峰瓙銆備絾濡傛灉浣犺'閭ｅ骇鎴垮瓙浠峰€煎崄涓囨硶閮?锛屼粬浠氨浼氳'鍝︼紝澶氭紓浜殑鎴垮瓙鍟婏紒'"</p>
-            <p>鎴戝繊涓嶄綇绗戜簡锛?浣犺寰楀お瀵逛簡銆?</p>
-            <p><em>"鎵€浠ユ垜浠墠闇€瑕佸瀛愪滑鐨勭敾鈥斺€旈偅浜涘彧鏈夌敤蹇冩墠鑳界湅瑙佺殑鐢汇€?</em></p>
+            <p>我们坐在篝火旁，一起画着那些只有我们能懂的画。</p>
+            <p>我画了一顶帽子，小王子画了一朵玫瑰。</p>
+            <p>我画了一架飞机，小王子画了一颗小小的星球。</p>
+            <p>"你知道吗？"小王子说，"在这个世界上，大人们只对数字感兴趣。如果你说'我看见了一座漂亮的房子'，他们不会想象那座房子的样子。但如果你说'那座房子价值十万法郎'，他们就会说'哦，多漂亮的房子啊！'"</p>
+            <p>我忍不住笑了："你说得太对了。"</p>
+            <p><em>"所以我们才需要孩子们的画——那些只有用心才能看见的画。"</em></p>
         `,
         choices: [
-            { text: '鍛婅瘔灏忕帇瀛愪粬鏄垜閬囧埌鐨勬渶鐗瑰埆鐨勪汉', next: 'ending_friendship', love: 30 },
-            { text: '鎶婅繖骞呯敾姘歌繙鐝嶈棌', next: 'ending_treasure', love: 25 }
+            { text: '告诉小王子他是我遇到的最特别的人', next: 'ending_friendship', love: 30 },
+            { text: '把这幅画永远珍藏', next: 'ending_treasure', love: 25 }
         ]
     },
 
     planet_king: {
-        chapter: '绗簩绔?,
-        location: '鍥界帇鐨勬槦鐞?,
-        locationIcon: '馃憫',
+        chapter: '第二章',
+        location: '国王的星球',
+        locationIcon: '👑',
         text: `
-            <p>灏忕帇瀛愭潵鍒颁簡绗竴涓槦鐞冿紝杩欓噷浣忕潃涓€浣嶅浗鐜嬨€?/p>
-            <p>"鍟婏紒鑷ｆ皯鏉ヤ簡锛?鍥界帇鐪嬪埌灏忕帇瀛愶紝楂樺叴鍦拌銆?/p>
-            <p>"鍙槸鎴戝苟涓嶆槸鎮ㄧ殑鑷ｆ皯鍟娿€?灏忕帇瀛愬洶鎯戝湴璇淬€?/p>
-            <p>"娌″叧绯伙紝鎴戝懡浠や綘鍋氭垜鐨勮嚕姘戙€?鍥界帇鍥炵瓟銆?/p>
-            <p>鍥界帇鐨勫懡浠ゅ緢濂囨€細浠栧懡浠ゅお闃宠惤灞憋紝鍛戒护灏嗗啗鍘绘墦浠楋紝鍛戒护澶ц嚕浠棴鍢淬€?/p>
-            <p><em>"浣嗚繖浜涗簨鎯呬笉鏄湰鏉ュ氨浼氬彂鐢熺殑鍚楋紵"灏忕帇瀛愰棶銆?/em></p>
-            <p>"娌￠敊锛?鍥界帇璇达紝"浣嗗懡浠ゅ埆浜哄仛浠栦滑鏈潵灏变細鍋氱殑浜嬶紝杩欐墠鏄潈鍔涚殑鐪熸浣撶幇銆?</p>
+            <p>小王子来到了第一个星球，这里住着一位国王。</p>
+            <p>"啊！臣民来了！"国王看到小王子，高兴地说。</p>
+            <p>"可是我并不是您的臣民啊。"小王子困惑地说。</p>
+            <p>"没关系，我命令你做我的臣民。"国王回答。</p>
+            <p>国王的命令很奇怪：他命令太阳落山，命令将军去打仗，命令大臣们闭嘴。</p>
+            <p><em>"但这些事情不是本来就会发生的吗？"小王子问。</em></p>
+            <p>"没错，"国王说，"但命令别人做他们本来就会做的事，这才是权力的真正体现。"</p>
         `,
         choices: [
-            { text: '鎷滆涓嬩竴棰楁槦鐞冿細鐖辫櫄鑽ｇ殑浜?, next: 'planet_vain', star: 2, love: -2 },
-            { text: '鍥炲埌B-612鏄熺悆鐪嬫湜鐜懓', next: 'return_rose', love: 5 }
+            { text: '拜访下一颗星球：爱虚荣的人', next: 'planet_vain', star: 2, love: -2 },
+            { text: '回到B-612星球看望玫瑰', next: 'return_rose', love: 5 }
         ]
     },
 
     planet_vain: {
-        chapter: '绗笁绔?,
-        location: '鐖辫櫄鑽ｇ殑浜虹殑鏄熺悆',
-        locationIcon: '馃帺',
+        chapter: '第三章',
+        location: '爱虚荣的人的星球',
+        locationIcon: '🎩',
         text: `
-            <p>绗簩涓槦鐞冧笂浣忕潃涓€涓埍铏氳崳鐨勪汉銆?/p>
-            <p>"鍝︼紒鏈夊磭鎷滆€呮潵鐪嬫垜浜嗭紒"鐖辫櫄鑽ｇ殑浜虹湅鍒板皬鐜嬪瓙锛屽ぇ澹板枈閬撱€?/p>
-            <p>"宕囨嫓鏄粈涔堟剰鎬濓紵"灏忕帇瀛愰棶銆?/p>
-            <p>"宕囨嫓灏辨槸鎵胯鎴戞槸杩欎釜鏄熺悆涓婃渶婕備寒銆佹渶鑱槑銆佹渶瀵屾湁鐨勪汉銆?</p>
-            <p>"浣嗚繖涓槦鐞冧笂鍙湁浣犱竴涓汉鍟娿€?灏忕帇瀛愯銆?/p>
-            <p>鐖辫櫄鑽ｇ殑浜虹毐璧蜂簡鐪夊ご锛?璇蜂笉瑕佺牬鍧忔垜鐨勫够鎯炽€?</p>
-            <p><em>"澶т汉鐪熺殑寰堝鎬€?灏忕帇瀛愬湪绂诲紑鐨勬椂鍊欒繖鏍锋兂鐫€銆?/em></p>
+            <p>第二个星球上住着一个爱虚荣的人。</p>
+            <p>"哦！有崇拜者来看我了！"爱虚荣的人看到小王子，大声喊道。</p>
+            <p>"崇拜是什么意思？"小王子问。</p>
+            <p>"崇拜就是承认我是这个星球上最漂亮、最聪明、最富有的人。"</p>
+            <p>"但这个星球上只有你一个人啊。"小王子说。</p>
+            <p>爱虚荣的人皱起了眉头："请不要破坏我的幻想。"</p>
+            <p><em>"大人真的很奇怪。"小王子在离开的时候这样想着。</em></p>
         `,
         choices: [
-            { text: '缁х画鎷滆閰掗鐨勬槦鐞?, next: 'planet_drunkard', star: 2, love: -3 },
-            { text: '鍥炲埌B-612鏄熺悆鐪嬫湜鐜懓', next: 'return_rose', love: 5 }
+            { text: '继续拜访酒鬼的星球', next: 'planet_drunkard', star: 2, love: -3 },
+            { text: '回到B-612星球看望玫瑰', next: 'return_rose', love: 5 }
         ]
     },
 
     planet_drunkard: {
-        chapter: '绗洓绔?,
-        location: '閰掗鐨勬槦鐞?,
-        locationIcon: '馃嵎',
+        chapter: '第四章',
+        location: '酒鬼的星球',
+        locationIcon: '🍷',
         text: `
-            <p>绗笁涓槦鐞冧笂浣忕潃涓€涓厭楝笺€?/p>
-            <p>"浣犲湪骞蹭粈涔堬紵"灏忕帇瀛愰棶銆?/p>
-            <p>"鎴戝湪鍠濋厭銆?閰掗鎮蹭激鍦板洖绛斻€?/p>
-            <p>"浣犱负浠€涔堣鍠濋厭锛?</p>
-            <p>"涓轰簡蹇樿銆?</p>
-            <p>"蹇樿浠€涔堬紵"</p>
-            <p><em>"蹇樿鎴戠殑缇炶€汇€?</em></p>
-            <p>"浠€涔堢緸鑰伙紵"</p>
-            <p>"鍠濋厭鐨勭緸鑰汇€?</p>
-            <p>灏忕帇瀛愬洶鎯戝湴绂诲紑浜嗐€傚ぇ浜轰滑鐨勪笘鐣岀湡鐨勫緢闅剧悊瑙ｃ€?/p>
+            <p>第三个星球上住着一个酒鬼。</p>
+            <p>"你在干什么？"小王子问。</p>
+            <p>"我在喝酒。"酒鬼悲伤地回答。</p>
+            <p>"你为什么要喝酒？"</p>
+            <p>"为了忘记。"</p>
+            <p>"忘记什么？"</p>
+            <p><em>"忘记我的羞耻。"</em></p>
+            <p>"什么羞耻？"</p>
+            <p>"喝酒的羞耻。"</p>
+            <p>小王子困惑地离开了。大人们的世界真的很难理解。</p>
         `,
         choices: [
-            { text: '缁х画鎷滆鍟嗕汉鐨勬槦鐞?, next: 'planet_businessman', star: 2, love: -2 },
-            { text: '鍥炲埌B-612鏄熺悆鐪嬫湜鐜懓', next: 'return_rose', love: 5 }
+            { text: '继续拜访商人的星球', next: 'planet_businessman', star: 2, love: -2 },
+            { text: '回到B-612星球看望玫瑰', next: 'return_rose', love: 5 }
         ]
     },
 
     planet_businessman: {
-        chapter: '绗簲绔?,
-        location: '鍟嗕汉鐨勬槦鐞?,
-        locationIcon: '馃挵',
+        chapter: '第五章',
+        location: '商人的星球',
+        locationIcon: '💰',
         text: `
-            <p>绗洓涓槦鐞冧笂浣忕潃涓€涓晢浜恒€?/p>
-            <p>"浣犲ソ銆?灏忕帇瀛愯銆?/p>
-            <p>"浣犲ソ銆?鍟嗕汉璇达紝"鎴戞鍦ㄨ绠楁槦鏄熺殑鏁伴噺銆?</p>
-            <p>"浣犱负浠€涔堣鍋氳繖浠朵簨锛?</p>
-            <p>"鍥犱负鏄熸槦鏄垜鐨勩€?</p>
-            <p>"鏄熸槦鏄綘鐨勶紵"灏忕帇瀛愬緢鎯婅銆?/p>
-            <p>"娌￠敊锛屾垜绗竴涓兂鍒拌鎷ユ湁瀹冧滑锛屾墍浠ュ畠浠氨鏄垜鐨勩€?</p>
-            <p><em>"浣嗕綘瀵瑰畠浠湁浠€涔堢敤鍛紵"灏忕帇瀛愰棶銆?/em></p>
-            <p>"鎴戣瀹冧滑鍙樺瘜銆?鍟嗕汉鍥炵瓟銆?/p>
+            <p>第四个星球上住着一个商人。</p>
+            <p>"你好。"小王子说。</p>
+            <p>"你好。"商人说，"我正在计算星星的数量。"</p>
+            <p>"你为什么要做这件事？"</p>
+            <p>"因为星星是我的。"</p>
+            <p>"星星是你的？"小王子很惊讶。</p>
+            <p>"没错，我第一个想到要拥有它们，所以它们就是我的。"</p>
+            <p><em>"但你对它们有什么用呢？"小王子问。</em></p>
+            <p>"我让它们变富。"商人回答。</p>
         `,
         choices: [
-            { text: '鍛婅瘔鍟嗕汉鏄熸槦涓嶈兘琚嫢鏈?, next: 'ending_truth', love: 10, star: 3 },
-            { text: '鍥炲埌B-612鏄熺悆鐪嬫湜鐜懓', next: 'return_rose', love: 5 }
+            { text: '告诉商人星星不能被拥有', next: 'ending_truth', love: 10, star: 3 },
+            { text: '回到B-612星球看望玫瑰', next: 'return_rose', love: 5 }
         ]
     },
 
     return_rose: {
-        chapter: '缁堢珷',
-        location: 'B-612鏄熺悆',
-        locationIcon: '馃尮',
+        chapter: '终章',
+        location: 'B-612星球',
+        locationIcon: '🌹',
         text: `
-            <p>灏忕帇瀛愬洖鍒颁簡浠栫殑鏄熺悆銆?/p>
-            <p>閭ｆ湹楠勫偛鐨勭帿鐟颁緷鐒跺湪閭ｉ噷锛屽ス鐨勫洓鏍瑰埡鍦ㄥ井椋庝腑杞昏交鎽囨檭銆?/p>
-            <p>"浣犲洖鏉ヤ簡銆?鐜懓璇达紝璇皵閲屽甫鐫€涓€涓濇儕璁躲€?/p>
-            <p>"鏄殑锛屾垜鍥炴潵浜嗐€?灏忕帇瀛愯锛?瀵逛笉璧凤紝鎴戜笉璇ョ寮€浣犮€?</p>
-            <p>"鎴戜篃瀵逛笉璧凤紝"鐜懓璇达紝"鎴戜笉璇ラ偅涔堜换鎬с€?</p>
-            <p>鍦ㄩ偅涓€鍒伙紝涓ら蹇冮噸鏂拌繛鎺ュ湪涓€璧枫€?/p>
-            <p><em>"閲嶈鐨勪笢瑗匡紝鐢ㄧ溂鐫涙槸鐪嬩笉瑙佺殑銆?</em></p>
+            <p>小王子回到了他的星球。</p>
+            <p>那朵骄傲的玫瑰依然在那里，她的四根刺在微风中轻轻摇晃。</p>
+            <p>"你回来了。"玫瑰说，语气里带着一丝惊讶。</p>
+            <p>"是的，我回来了。"小王子说，"对不起，我不该离开你。"</p>
+            <p>"我也对不起，"玫瑰说，"我不该那么任性。"</p>
+            <p>在那一刻，两颗心重新连接在一起。</p>
+            <p><em>"重要的东西，用眼睛是看不见的。"</em></p>
         `,
         choices: [
-            { text: '杩欏氨鏄粨灞€锛屼竴鍒囬兘濂?, next: 'ending_home', love: 20 }
+            { text: '这就是结局，一切都好', next: 'ending_home', love: 20 }
         ]
     },
 
-    // ===== 缁撳眬 =====
+    // ===== 结局 =====
     ending_home: {
-        chapter: '缁撳眬',
-        location: 'B-612鏄熺悆',
-        locationIcon: '馃専',
+        chapter: '结局',
+        location: 'B-612星球',
+        locationIcon: '🌟',
         text: `
-            <p>灏忕帇瀛愮粓浜庡洖鍒颁簡浠栫殑鏄熺悆锛屽洖鍒颁簡浠栫殑鐜懓韬竟銆?/p>
-            <p>閭ｄ簺鏇剧粡鐨勪簤鍚靛拰璇В锛屽湪鐖遍潰鍓嶅彉寰楀井涓嶈冻閬撱€?/p>
-            <p>"浣犵煡閬撳悧锛?灏忕帇瀛愯锛?鎴戝湪鏃呴€斾腑閬囧埌浜嗗緢澶氬鎬殑浜猴紝浣嗘病鏈変竴涓汉鑳界悊瑙ｆ垜銆?</p>
-            <p>"鐩村埌鎴戦亣瑙佷簡浣犮€?浠栫湅鐫€閭ｆ湹鐜懓锛岀溂鐫涢噷鍏呮弧浜嗘俯鏌斻€?/p>
-            <p><em>"鍥犱负浣犲湪浣犵殑鐜懓涓婅姳璐逛簡鏃堕棿锛屾墠浣垮緱浣犵殑鐜懓鍙樺緱濡傛閲嶈銆?</em></p>
-            <p>鑰屾垜锛屼綔涓轰竴涓琛屽憳锛屾案杩滆浣忎簡閭ｄ釜鏉ヨ嚜B-612鏄熺悆鐨勭敺瀛╋紝鍜屼粬鏁欎細鎴戠殑閬撶悊锛?/p>
-            <p><span class="highlight">鐪熸閲嶈鐨勪笢瑗匡紝鐢ㄧ溂鐫涙槸鐪嬩笉瑙佺殑锛岃鐢ㄥ績鍘绘劅鍙椼€?/span></p>
+            <p>小王子终于回到了他的星球，回到了他的玫瑰身边。</p>
+            <p>那些曾经的争吵和误解，在爱面前变得微不足道。</p>
+            <p>"你知道吗？"小王子说，"我在旅途中遇到了很多奇怪的人，但没有一个人能理解我。"</p>
+            <p>"直到我遇见了你。"他看着那朵玫瑰，眼睛里充满了温柔。</p>
+            <p><em>"因为你在你的玫瑰上花费了时间，才使得你的玫瑰变得如此重要。"</em></p>
+            <p>而我，作为一个飞行员，永远记住了那个来自B-612星球的男孩，和他教会我的道理：</p>
+            <p><span class="highlight">真正重要的东西，用眼睛是看不见的，要用心去感受。</span></p>
         `,
         isEnding: true,
         endingType: 'home'
     },
 
     ending_friendship: {
-        chapter: '缁撳眬',
-        location: '鎾掑搱鎷夋矙婕犅锋案鎭掔殑鍙嬭皧',
-        locationIcon: '馃挮',
+        chapter: '结局',
+        location: '撒哈拉沙漠·永恒的友谊',
+        locationIcon: '💫',
         text: `
-            <p>鍦ㄩ偅涓鏅氾紝鎴戝拰灏忕帇瀛愭垚涓轰簡姘歌繙鐨勬湅鍙嬨€?/p>
-            <p>铏界劧浠栨渶缁堣繕鏄鍥炲埌浠栫殑鏄熺悆锛屽洖鍒颁粬鐨勭帿鐟拌韩杈癸紝浣嗘垜鐭ラ亾锛屾垜浠箣闂寸殑鑱旂粨姘歌繙涓嶄細娑堝け銆?/p>
-            <p>"姣忓綋浣犱话鏈涙槦绌虹殑鏃跺€欙紝"灏忕帇瀛愯锛?浣犲氨浼氭兂璧锋垜銆傚洜涓烘垜浼氫綇鍦ㄥ叾涓竴棰楁槦鏄熶笂锛屾垜浼氬湪鍏朵腑涓€棰楁槦鏄熶笂绗戠潃銆?</p>
-            <p><em>"瀵逛綘鏉ヨ锛屾垜浼氭槸鐙竴鏃犱簩鐨勶紱瀵逛綘鏉ヨ锛屾垜涔熸槸鐙竴鏃犱簩鐨勩€?</em></p>
-            <p>鎴戠湅鐫€灏忕帇瀛愮殑韬奖娓愭笎娑堝け鍦ㄦ槦鍏変腑锛屽績閲屽厖婊′簡鎰熸縺銆?/p>
-            <p>鎰熻阿浣狅紝灏忕帇瀛愶紝鏁欎細鎴戜粈涔堟槸鐪熸鐨勫弸璋婏紝浠€涔堟槸鐪熸閲嶈鐨勪笢瑗裤€?/p>
-            <p><span class="highlight">鎵€鏈夌殑澶т汉閮芥浘缁忔槸灏忓锛岃櫧鐒讹紝鍙湁灏戞暟鐨勪汉璁板緱銆?/span></p>
+            <p>在那个夜晚，我和小王子成为了永远的朋友。</p>
+            <p>虽然他最终还是要回到他的星球，回到他的玫瑰身边，但我知道，我们之间的联结永远不会消失。</p>
+            <p>"每当你仰望星空的时候，"小王子说，"你就会想起我。因为我会住在其中一颗星星上，我会在其中一颗星星上笑着。"</p>
+            <p><em>"对你来说，我会是独一无二的；对你来说，我也是独一无二的。"</em></p>
+            <p>我看着小王子的身影渐渐消失在星光中，心里充满了感激。</p>
+            <p>感谢你，小王子，教会我什么是真正的友谊，什么是真正重要的东西。</p>
+            <p><span class="highlight">所有的大人都曾经是小孩，虽然，只有少数的人记得。</span></p>
         `,
         isEnding: true,
         endingType: 'friendship'
     },
 
     ending_treasure: {
-        chapter: '缁撳眬',
-        location: '鎾掑搱鎷夋矙婕犅风弽钘忕殑鍥炲繂',
-        locationIcon: '馃巵',
+        chapter: '结局',
+        location: '撒哈拉沙漠·珍藏的回忆',
+        locationIcon: '🎁',
         text: `
-            <p>鎴戝皬蹇冪考缈煎湴鏀惰捣浜嗛偅骞呯敾锛岄偅鏄垜鍜屽皬鐜嬪瓙涓€璧峰垱浣滅殑銆?/p>
-            <p>"杩欏箙鐢绘槸鎴戞渶鐝嶈吹鐨勫疂钘忋€?鎴戝灏忕帇瀛愯銆?/p>
-            <p>灏忕帇瀛愬井绗戠潃锛?鐢诲彧鏄焊锛屼絾鎴戜滑鍦ㄧ敾鐢绘椂鐨勬椂鍏夛紝鎵嶆槸鐪熸鐨勫疂钘忋€?</p>
-            <p>鍦ㄩ偅涓€鍒伙紝鎴戞槑鐧戒簡锛氱湡姝ｇ殑瀹濊棌涓嶆槸鐗╁搧鏈韩锛岃€屾槸涓庢墍鐖变箣浜哄叡搴︾殑鏃跺厜銆?/p>
-            <p><em>"濡傛灉浣犳兂瑕佷竴涓汉鍋氫綘鐨勬湅鍙嬶紝浣犲氨瑕侀┋鏈嶄粬銆?</em></p>
-            <p>鑰岄┋鏈嶄竴涓汉锛岄渶瑕佽€愬績锛岄渶瑕佹椂闂达紝闇€瑕佺湡蹇冦€?/p>
-            <p><span class="highlight">鏈変簺涓滆タ锛屽彧鏈夌敤蹇冩墠鑳界湅瑙併€?/span></p>
+            <p>我小心翼翼地收起了那幅画，那是我和小王子一起创作的。</p>
+            <p>"这幅画是我最珍贵的宝藏。"我对小王子说。</p>
+            <p>小王子微笑着："画只是纸，但我们在画画时的时光，才是真正的宝藏。"</p>
+            <p>在那一刻，我明白了：真正的宝藏不是物品本身，而是与所爱之人共度的时光。</p>
+            <p><em>"如果你想要一个人做你的朋友，你就要驯服他。"</em></p>
+            <p>而驯服一个人，需要耐心，需要时间，需要真心。</p>
+            <p><span class="highlight">有些东西，只有用心才能看见。</span></p>
         `,
         isEnding: true,
         endingType: 'treasure'
     },
 
     ending_truth: {
-        chapter: '缁撳眬',
-        location: '鍟嗕汉鐨勬槦鐞兟风湡鐞嗕箣鍦?,
-        locationIcon: '馃挕',
+        chapter: '结局',
+        location: '商人的星球·真理之地',
+        locationIcon: '💡',
         text: `
-            <p>"浣犻敊浜嗐€?灏忕帇瀛愬鍟嗕汉璇达紝"鏄熸槦涓嶈兘琚嫢鏈夈€?</p>
-            <p>"瀹冧滑灞炰簬姣忎竴涓话鏈涘畠浠殑浜恒€備綘涓嶈兘鎷ユ湁鏄熸槦锛屽氨鍍忎綘涓嶈兘鎷ユ湁椋庝竴鏍枫€?</p>
-            <p>鍟嗕汉鐢熸皵鍦扮灙鐫€灏忕帇瀛愶紝浣嗕粬鏃犳硶鍙嶉┏銆?/p>
-            <p>"浣犵煡閬撳悧锛?灏忕帇瀛愮户缁锛?鎴戞浘缁忔嫢鏈変竴鏈电帿鐟帮紝鎴戞湰浠ヤ负濂规槸鎴戠殑銆備絾鎴戦敊浜嗏€斺€斿ス涓嶆槸鎴戠殑锛屾垜涔熸病鏈夋嫢鏈夊ス銆?</p>
-            <p><em>"鐪熸鐨勬嫢鏈夛紝涓嶆槸鎶婂鏂瑰叧鍦ㄧ瀛愰噷锛岃€屾槸璁╁ス鑷敱锛屽悓鏃剁煡閬撳ス浼氬洖鏉ャ€?</em></p>
-            <p>鎴戝惉浜嗗皬鐜嬪瓙鐨勮瘽锛岀獊鐒舵槑鐧戒簡浠€涔堟墠鏄湡姝ｇ殑鐖便€?/p>
-            <p><span class="highlight">鐖变笉鏄崰鏈夛紝鑰屾槸缁欎簣鑷敱銆?/span></p>
+            <p>"你错了。"小王子对商人说，"星星不能被拥有。"</p>
+            <p>"它们属于每一个仰望它们的人。你不能拥有星星，就像你不能拥有风一样。"</p>
+            <p>商人生气地瞪着小王子，但他无法反驳。</p>
+            <p>"你知道吗？"小王子继续说，"我曾经拥有一朵玫瑰，我本以为她是我的。但我错了——她不是我的，我也没有拥有她。"</p>
+            <p><em>"真正的拥有，不是把对方关在笼子里，而是让她自由，同时知道她会回来。"</em></p>
+            <p>我听了小王子的话，突然明白了什么才是真正的爱。</p>
+            <p><span class="highlight">爱不是占有，而是给予自由。</span></p>
         `,
         isEnding: true,
         endingType: 'truth'
     },
 
     continue_fix: {
-        chapter: '绗簩绔?,
-        location: '鎾掑搱鎷夋矙婕犅蜂慨鐞嗕腑',
-        locationIcon: '馃敡',
+        chapter: '第二章',
+        location: '撒哈拉沙漠·修理中',
+        locationIcon: '🔧',
         text: `
-            <p>鎴戠户缁慨鐞嗘垜鐨勯鏈猴紝浣嗗皬鐜嬪瓙涓€鐩村湪鏃佽竟闂垜闂銆?/p>
-            <p>"缇婁細鍚冪亴鏈ㄥ悧锛?</p>
-            <p>"浼氱殑銆?</p>
-            <p>"閭ｇ緤浼氬悆鐚撮潰鍖呮爲鍚楋紵"</p>
-            <p>"涓嶄細锛岀尨闈㈠寘鏍戝お澶т簡銆?</p>
-            <p>"鐚撮潰鍖呮爲鍦ㄥ彉鎴愬ぇ鏍戜箣鍓嶏紝涔熸槸灏忔爲鑻楀晩銆?灏忕帇瀛愯銆?/p>
-            <p>"娌￠敊銆?</p>
-            <p><em>"閭ｄ箞闂鏉ヤ簡鈥斺€斿湪B-612鏄熺悆涓婏紝灏忕緤鑳藉悆鎺夌尨闈㈠寘鏍戠殑骞艰嫍鍚楋紵"</em></p>
-            <p>鎴戠獊鐒舵剰璇嗗埌锛屽皬鐜嬪瓙鍦ㄦ媴蹇冧粬鐨勬槦鐞冦€?/p>
+            <p>我继续修理我的飞机，但小王子一直在旁边问我问题。</p>
+            <p>"羊会吃灌木吗？"</p>
+            <p>"会的。"</p>
+            <p>"那羊会吃猴面包树吗？"</p>
+            <p>"不会，猴面包树太大了。"</p>
+            <p>"猴面包树在变成大树之前，也是小树苗啊。"小王子说。</p>
+            <p>"没错。"</p>
+            <p><em>"那么问题来了——在B-612星球上，小羊能吃掉猴面包树的幼苗吗？"</em></p>
+            <p>我突然意识到，小王子在担心他的星球。</p>
         `,
         choices: [
-            { text: '鍛婅瘔灏忕帇瀛愯闃叉鐚撮潰鍖呮爲闀垮ぇ', next: 'prince_story', love: 8 },
-            { text: '鍏堝府灏忕帇瀛愯В鍐宠繖涓媴蹇?, next: 'prince_story', love: 10 }
+            { text: '告诉小王子要防止猴面包树长大', next: 'prince_story', love: 8 },
+            { text: '先帮小王子解决这个担忧', next: 'prince_story', love: 10 }
         ]
     },
 
     prince_planet: {
-        chapter: '绗簲绔?,
-        location: 'B-612鏄熺悆路鍥炲繂',
-        locationIcon: '馃尭',
+        chapter: '第五章',
+        location: 'B-612星球·回忆',
+        locationIcon: '🌸',
         text: `
-            <p>"鍦ㄦ垜鐨勬槦鐞冧笂锛?灏忕帇瀛愯锛?鏈変竴鏈甸潪甯哥編涓界殑鐜懓銆?</p>
-            <p>"濂瑰彧鏈夊洓鏍瑰埡锛屼絾濂硅寰楄嚜宸卞緢鍘夊銆?</p>
-            <p>"鎴戞瘡澶╃粰濂规祰姘达紝缁欏ス鎸￠锛屼负濂归櫎铏€?</p>
-            <p>"浣嗗ス鎬绘槸鎶辨€紝璇存垜杩欎笉濂介偅涓嶅ソ銆?</p>
-            <p>"鏈変竴澶╋紝鎴戠寮€浜嗗ス銆?</p>
-            <p><em>"浣嗙幇鍦紝鎴戝ソ鎯冲ス銆?</em></p>
-            <p>灏忕帇瀛愮殑鐪肩潧婀挎鼎浜嗐€?/p>
+            <p>"在我的星球上，"小王子说，"有一朵非常美丽的玫瑰。"</p>
+            <p>"她只有四根刺，但她觉得自己很厉害。"</p>
+            <p>"我每天给她浇水，给她挡风，为她除虫。"</p>
+            <p>"但她总是抱怨，说我这不好那不好。"</p>
+            <p>"有一天，我离开了她。"</p>
+            <p><em>"但现在，我好想她。"</em></p>
+            <p>小王子的眼睛湿润了。</p>
         `,
         choices: [
-            { text: '瀹夋叞灏忕帇瀛?, next: 'comfort_prince', love: 12 },
-            { text: '闂皬鐜嬪瓙涓轰粈涔堜笉鍥炲幓鎵惧ス', next: 'why_leave', love: 10 }
+            { text: '安慰小王子', next: 'comfort_prince', love: 12 },
+            { text: '问小王子为什么不回去找她', next: 'why_leave', love: 10 }
         ]
     },
 
     find_well: {
-        chapter: '绗洓绔?,
-        location: '鎾掑搱鎷夋矙婕犅锋按浜曟梺',
-        locationIcon: '馃',
+        chapter: '第四章',
+        location: '撒哈拉沙漠·水井旁',
+        locationIcon: '🪣',
         text: `
-            <p>鎴戝甫鐫€灏忕帇瀛愬湪娌欐紶涓鎵鹃偅鍙ｄ紶璇翠腑鐨勬按浜曘€?/p>
-            <p>"姘翠簳鍦ㄥ摢閲岋紵"灏忕帇瀛愰棶銆?/p>
-            <p>"鎴戜滑鐢ㄥ績鍘绘壘锛屽氨涓€瀹氳兘鎵惧埌銆?鎴戣銆?/p>
-            <p>鎴戜滑璧颁簡寰堜箙寰堜箙锛岀粓浜庡湪榛庢槑鏃跺垎锛屽彂鐜颁簡涓€鍙ｅ彜鑰佺殑姘翠簳銆?/p>
-            <p>鎴戜滑鎵撲笂姘达紝鍠濅簡涓€鍙ｏ紝閭ｆ按鍙堢敎鍙堟竻鍑夈€?/p>
-            <p><em>"娌欐紶涔嬫墍浠ョ編涓斤紝鏄洜涓哄畠鍦ㄦ煇涓钀介噷钘忕潃涓€鍙ｆ按浜曘€?</em>灏忕帇瀛愯銆?/p>
-            <p>鍦ㄩ偅涓€鍒伙紝鎴戞槑鐧戒簡锛氱湡姝ｇ編濂界殑涓滆タ锛屽線寰€闅愯棌鍦ㄦ渶涓嶈捣鐪肩殑鍦版柟銆?/p>
+            <p>我带着小王子在沙漠中寻找那口传说中的水井。</p>
+            <p>"水井在哪里？"小王子问。</p>
+            <p>"我们用心去找，就一定能找到。"我说。</p>
+            <p>我们走了很久很久，终于在黎明时分，发现了一口古老的水井。</p>
+            <p>我们打上水，喝了一口，那水又甜又清凉。</p>
+            <p><em>"沙漠之所以美丽，是因为它在某个角落里藏着一口水井。"</em>小王子说。</p>
+            <p>在那一刻，我明白了：真正美好的东西，往往隐藏在最不起眼的地方。</p>
         `,
         choices: [
-            { text: '涓庡皬鐜嬪瓙涓€璧峰枬杩欑弽璐电殑姘?, next: 'ending_friendship', love: 15, star: 5 },
-            { text: '鎶婅繖鍙ｆ按浜曠殑绉樺瘑鍒嗕韩缁欐洿澶氫汉', next: 'ending_truth', love: 12 }
+            { text: '与小王子一起喝这珍贵的水', next: 'ending_friendship', love: 15, star: 5 },
+            { text: '把这口水井的秘密分享给更多人', next: 'ending_truth', love: 12 }
         ]
     }
 };
 
-// ==================== 娓告垙鍑芥暟 ====================
+// ==================== 游戏函数 ====================
 
 /**
- * 鍒濆鍖栨槦绌鸿儗鏅? */
+ * 初始化星空背景
+ */
 function initStars() {
     const starsContainer = document.getElementById('stars');
     const starCount = 150;
@@ -413,7 +414,7 @@ function initStars() {
 }
 
 /**
- * 鏄剧ず鎸囧畾鐣岄潰
+ * 显示指定界面
  */
 function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(screen => {
@@ -423,7 +424,8 @@ function showScreen(screenId) {
 }
 
 /**
- * 寮€濮嬫父鎴? */
+ * 开始游戏
+ */
 function startGame() {
     gameState.currentScene = 'start';
     gameState.love = 0;
@@ -438,7 +440,7 @@ function startGame() {
 }
 
 /**
- * 鍔犺浇鍦烘櫙
+ * 加载场景
  */
 function loadScene(sceneId) {
     const scene = storyData[sceneId];
@@ -446,15 +448,16 @@ function loadScene(sceneId) {
     
     gameState.currentScene = sceneId;
     
-    // 鏇存柊鐣岄潰
+    // 更新界面
     document.getElementById('current-location').textContent = scene.location;
     document.querySelector('.location-icon').textContent = scene.locationIcon;
     document.getElementById('chapter-num').textContent = scene.chapter;
     
-    // 娓呯┖骞跺姞杞芥晠浜嬫枃鏈?    const storyText = document.getElementById('story-text');
+    // 清空并加载故事文本
+    const storyText = document.getElementById('story-text');
     storyText.innerHTML = '';
     
-    // 浣跨敤 setTimeout 妯℃嫙鎵撳瓧鏁堟灉
+    // 使用 setTimeout 模拟打字效果
     const parser = new DOMParser();
     const doc = parser.parseFromString(scene.text, 'text/html');
     const paragraphs = doc.querySelectorAll('p');
@@ -466,33 +469,33 @@ function loadScene(sceneId) {
         }, index * 150);
     });
     
-    // 鍔犺浇閫夐」
+    // 加载选项
     const choicesPanel = document.getElementById('choices-panel');
     choicesPanel.innerHTML = '';
     
     setTimeout(() => {
         if (scene.isEnding) {
-            // 缁撳眬鐣岄潰
+            // 结局界面
             const endingIcon = document.getElementById('ending-icon');
             const endingTitle = document.getElementById('ending-title');
             const endingText = document.getElementById('ending-text');
             
             const icons = {
-                'home': '馃彔',
-                'friendship': '馃挮',
-                'treasure': '馃巵',
-                'truth': '馃挕'
+                'home': '🏠',
+                'friendship': '💫',
+                'treasure': '🎁',
+                'truth': '💡'
             };
             
             const titles = {
-                'home': '鍥炲',
-                'friendship': '姘告亽鐨勫弸璋?,
-                'treasure': '鐝嶈棌鐨勫洖蹇?,
-                'truth': '鐪熺悊'
+                'home': '回家',
+                'friendship': '永恒的友谊',
+                'treasure': '珍藏的回忆',
+                'truth': '真理'
             };
             
-            endingIcon.textContent = icons[scene.endingType] || '馃専';
-            endingTitle.textContent = titles[scene.endingType] || '缁撳眬';
+            endingIcon.textContent = icons[scene.endingType] || '🌟';
+            endingTitle.textContent = titles[scene.endingType] || '结局';
             endingText.innerHTML = scene.text;
             
             document.getElementById('final-love').textContent = gameState.love;
@@ -500,7 +503,7 @@ function loadScene(sceneId) {
             
             setTimeout(() => showScreen('ending-screen'), 1500);
         } else {
-            // 姝ｅ父閫夐」
+            // 正常选项
             scene.choices.forEach((choice, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'btn btn-choice';
@@ -514,10 +517,11 @@ function loadScene(sceneId) {
 }
 
 /**
- * 鍋氬嚭閫夋嫨
+ * 做出选择
  */
 function makeChoice(choice) {
-    // 鏇存柊娓告垙鐘舵€?    if (choice.love) gameState.love += choice.love;
+    // 更新游戏状态
+    if (choice.love) gameState.love += choice.love;
     if (choice.star) gameState.stars += choice.star;
     if (choice.item && !gameState.items.includes(choice.item)) {
         gameState.items.push(choice.item);
@@ -525,14 +529,15 @@ function makeChoice(choice) {
     
     gameState.choices.push(choice.text);
     
-    // 鏇存柊鏄剧ず
+    // 更新显示
     updateStats();
     
-    // 鍔犺浇涓嬩竴涓満鏅?    loadScene(choice.next);
+    // 加载下一个场景
+    loadScene(choice.next);
 }
 
 /**
- * 鏇存柊缁熻鏁版嵁
+ * 更新统计数据
  */
 function updateStats() {
     animateStat('love-stat', gameState.love);
@@ -541,7 +546,7 @@ function updateStats() {
 }
 
 /**
- * 鏁板瓧鍔ㄧ敾
+ * 数字动画
  */
 function animateStat(elementId, targetValue) {
     const element = document.getElementById(elementId);
@@ -557,30 +562,31 @@ function animateStat(elementId, targetValue) {
 }
 
 /**
- * 閲嶆柊寮€濮? */
+ * 重新开始
+ */
 function restartGame() {
     startGame();
 }
 
 /**
- * 鏄剧ず鍒朵綔鍚嶅崟
+ * 显示制作名单
  */
 function showCredits() {
     showScreen('credits-screen');
 }
 
 /**
- * 杩斿洖棣栭〉
+ * 返回首页
  */
 function goToStart() {
     showScreen('start-screen');
 }
 
-// ==================== 鍒濆鍖?====================
+// ==================== 初始化 ====================
 document.addEventListener('DOMContentLoaded', () => {
     initStars();
     
-    // 娣诲姞椤甸潰鍒囨崲鍔ㄧ敾
+    // 添加页面切换动画
     document.querySelectorAll('.btn').forEach(btn => {
         btn.addEventListener('click', function() {
             this.style.transform = 'scale(0.95)';
